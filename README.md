@@ -13,7 +13,7 @@ OpenWrt firmware for NOKIA BELL XG-040G-MD
 
 XG-040G-MD 使用的 NAND Flash 主要有两个型号
 * SkyHigh S35ML02G300: 恩山无线论坛已有人做出相对可用的 patch，稳定性还不太确定
-* Fudan Micro FM25G02B: 晚期生产的，用此型号的较多。网上目前没有靠谱的 patch，Immortalwrt 编译后虽然可运行，但是稳定性较差，而且会显示大量 ecc，大家还是不要尝试了，以免造成坏块。
+* Fudan Micro FM25G02B: 晚期生产的，用此型号的较多。网上目前没有靠谱的 patch，Immortalwrt 编译后虽然可运行，但是稳定性较差，而且会显示大量 ecc 错误，大家还是不要尝试了，以免造成真正的坏块。
 
 ## Immortalwrt Snapshots
 ![snapshot1](snapshots/snapshot_2026-02-09_20-14-16.png)
