@@ -66,10 +66,12 @@ jobs:
           echo "COMMIT_MSG=$(git log -1 --pretty=format:%s)" >> $GITHUB_ENV
 
       - name: Apply XG-040G-MD Patch Files
+        working-directory: ./openwrt
         run: |
           # 检查 patch 目录和脚本是否存在
           if [ -d "patch" ] && [ -f "patch/patch.sh" ]; then
             echo "--- 正在应用自动化补丁 ---"
+            cp -r -f ../patch .
             chmod +x patch/patch.sh
             cd patch && ./patch.sh
             echo "--- 补丁应用成功 ---"
