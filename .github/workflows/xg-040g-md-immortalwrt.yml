@@ -21,7 +21,6 @@ on:
         required: true
         default: "patch-master"
         type: choice
-        # ===================== 修改点1：新增patch-master选项 =====================
         options:
           - patch-bingoguo93-25.12
           - patch-xiangtailiang-25.12
@@ -47,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # ===================== 修改点2：动态设置分支/配置 =====================
+      # 动态设置分支/配置
       - name: Set dynamic branch and config
         id: dynamic_config
         run: |
@@ -144,7 +143,7 @@ jobs:
       - name: Apply XG-040G-MD Patch Files
         working-directory: ./openwrt
         run: |
-          SELECTED_PATCH=${{ inputs.patch_type || 'patch-bingoguo93' }}
+          SELECTED_PATCH=${{ inputs.patch_type || 'patch-bingoguo93-25.12' }}
           echo "SELECTED_PATCH=$SELECTED_PATCH" >> $GITHUB_ENV
           
           if [ -d "../$SELECTED_PATCH" ] && [ -f "../$SELECTED_PATCH/patch.sh" ]; then
@@ -164,13 +163,12 @@ jobs:
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Copy configuration and defconfig
+      # 复制基础配置文件
+      - name: Copy base configuration file
         run: |
           [ -f "${CONFIG_FILE}" ] && cp -fv "${CONFIG_FILE}" openwrt/.config || echo "警告: 未找到配置文件"
-          cd openwrt && make defconfig
-          [ -e .config ] && cp .config defconfig-final.config
 
-      # ===================== 修改点3：自动修改master分支配置 =====================
+      # patch-master 专属配置修改（defconfig 之前执行）
       - name: Modify config for patch-master
         if: env.IS_MASTER_PATCH == 'true'
         working-directory: ./openwrt
@@ -181,9 +179,13 @@ jobs:
           # 启用 中文默认设置
           sed -i 's/^# CONFIG_PACKAGE_default-settings-chn is not set/CONFIG_PACKAGE_default-settings-chn=y/' .config
           sed -i 's/^CONFIG_PACKAGE_default-settings-chn=n/CONFIG_PACKAGE_default-settings-chn=y/' .config
-          # 重新生成配置
-          make defconfig
           echo "✅ master分支配置修改完成"
+
+      # 生成最终配置
+      - name: Generate defconfig and backup
+        run: |
+          cd openwrt && make defconfig
+          [ -e .config ] && cp .config defconfig-final.config
 
       - name: Upload build config files
         uses: actions/upload-artifact@v6
