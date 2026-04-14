@@ -167,14 +167,8 @@ jobs:
       - name: Copy configuration and defconfig
         run: |
           [ -f "${CONFIG_FILE}" ] && cp -fv "${CONFIG_FILE}" openwrt/.config || echo "警告: 未找到配置文件"
-          cd openwrt && make defconfig
-          [ -e .config ] && cp .config defconfig-final.config
-
-      # ===================== 修改点3：自动修改master分支配置 =====================
-      - name: Modify config for patch-master
-        if: env.IS_MASTER_PATCH == 'true'
-        working-directory: ./openwrt
-        run: |
+          cd openwrt 
+          if: env.IS_MASTER_PATCH == 'true'
           echo "🔧 正在为master分支修改配置..."
           # 禁用 luci-app-nlbwmon
           sed -i 's/^CONFIG_PACKAGE_luci-app-nlbwmon=y/# CONFIG_PACKAGE_luci-app-nlbwmon is not set/' .config
@@ -182,9 +176,25 @@ jobs:
           # 启用 中文默认设置
           sed -i 's/^# CONFIG_PACKAGE_default-settings-chn is not set/CONFIG_PACKAGE_default-settings-chn=y/' .config
           sed -i 's/^CONFIG_PACKAGE_default-settings-chn=n/CONFIG_PACKAGE_default-settings-chn=y/' .config
-          # 重新生成配置
           make defconfig
-          echo "✅ master分支配置修改完成"
+          else: make defconfig
+          [ -e .config ] && cp .config defconfig-final.config
+
+      # # ===================== 修改点3：自动修改master分支配置 =====================
+      # - name: Modify config for patch-master
+      #   if: env.IS_MASTER_PATCH == 'true'
+      #   working-directory: ./openwrt
+      #   run: |
+      #     echo "🔧 正在为master分支修改配置..."
+      #     # 禁用 luci-app-nlbwmon
+      #     sed -i 's/^CONFIG_PACKAGE_luci-app-nlbwmon=y/# CONFIG_PACKAGE_luci-app-nlbwmon is not set/' .config
+      #     sed -i 's/^CONFIG_PACKAGE_nlbwmon=y/# CONFIG_PACKAGE_nlbwmon is not set/' .config
+      #     # 启用 中文默认设置
+      #     sed -i 's/^# CONFIG_PACKAGE_default-settings-chn is not set/CONFIG_PACKAGE_default-settings-chn=y/' .config
+      #     sed -i 's/^CONFIG_PACKAGE_default-settings-chn=n/CONFIG_PACKAGE_default-settings-chn=y/' .config
+      #     # 重新生成配置
+      #     make defconfig
+      #     echo "✅ master分支配置修改完成"
 
       - name: Upload build config files
         uses: actions/upload-artifact@v6
