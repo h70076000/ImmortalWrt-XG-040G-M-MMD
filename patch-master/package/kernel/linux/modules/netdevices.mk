@@ -191,7 +191,7 @@ define KernelPackage/libphy
 	   CONFIG_MDIO_BUS
   FILES:=$(LINUX_DIR)/drivers/net/phy/libphy.ko \
     $(LINUX_DIR)/drivers/net/phy/mdio-bus.ko@ge6.18
-  AUTOLOAD:=$(call AutoLoad,15,libphy !LINUX_6_12:mdio-bus,1)
+  AUTOLOAD:=$(call AutoLoad,15,libphy mdio-bus@ge6.18,1)
 endef
 
 define KernelPackage/libphy/description
@@ -625,7 +625,7 @@ $(eval $(call KernelPackage,airoha-npu))
 define KernelPackage/airoha-eth
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=Airoha SoC Ethernet support
-  DEPENDS:=@TARGET_airoha_an7581 +kmod-airoha-npu
+  DEPENDS:=@TARGET_airoha_an7581 +kmod-airoha-npu +kmod-of-mdio
   KCONFIG:= \
 	CONFIG_NET_VENDOR_AIROHA \
 	CONFIG_NET_AIROHA
@@ -638,6 +638,41 @@ define KernelPackage/airoha-eth/description
 endef
 
 $(eval $(call KernelPackage,airoha-eth))
+
+
+define KernelPackage/dsa-mt7530
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=MediaTek MT7530/MT7531 DSA switch
+  DEPENDS:=@TARGET_airoha_an7581
+  KCONFIG:=CONFIG_NET_DSA_MT7530
+  FILES:=$(LINUX_DIR)/drivers/net/dsa/mt7530-dsa.ko
+  AUTOLOAD:=$(call AutoLoad,42,mt7530-dsa,1)
+endef
+
+define KernelPackage/dsa-mt7530/description
+  Kernel module for MediaTek MT7530/MT7531 Gigabit switch.
+  This is the core switch driver.
+endef
+
+$(eval $(call KernelPackage,dsa-mt7530))
+
+
+define KernelPackage/dsa-mt7530-mmio
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=MediaTek MT7530 MMIO interface driver
+  DEPENDS:=@TARGET_airoha_an7581 +kmod-dsa-mt7530 +kmod-airoha-eth
+  KCONFIG:=CONFIG_NET_DSA_MT7530_MMIO
+  FILES:=$(LINUX_DIR)/drivers/net/dsa/mt7530-mmio.ko
+  AUTOLOAD:=$(call AutoLoad,43,mt7530-mmio,1)
+  DEFAULT:=y if TARGET_airoha_an7581
+endef
+
+define KernelPackage/dsa-mt7530-mmio/description
+  Kernel module for MediaTek MT7530 DSA switch with MMIO interface.
+  Used on Airoha EN7581 SoC with built-in switch.
+endef
+
+$(eval $(call KernelPackage,dsa-mt7530-mmio))
 
 
 define KernelPackage/phy-vitesse
