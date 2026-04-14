@@ -178,6 +178,7 @@ jobs:
           echo "🔧 正在为master分支修改配置..."
           # 禁用 luci-app-nlbwmon
           sed -i 's/^CONFIG_PACKAGE_luci-app-nlbwmon=y/# CONFIG_PACKAGE_luci-app-nlbwmon is not set/' .config
+          sed -i 's/^CONFIG_PACKAGE_nlbwmon=y/# CONFIG_PACKAGE_nlbwmon is not set/' .config
           # 启用 中文默认设置
           sed -i 's/^# CONFIG_PACKAGE_default-settings-chn is not set/CONFIG_PACKAGE_default-settings-chn=y/' .config
           sed -i 's/^CONFIG_PACKAGE_default-settings-chn=n/CONFIG_PACKAGE_default-settings-chn=y/' .config
