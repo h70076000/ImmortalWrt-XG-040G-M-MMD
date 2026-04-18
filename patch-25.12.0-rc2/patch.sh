@@ -69,7 +69,7 @@ cp -f "target/linux/airoha/dts/an7581-w1700k-ubi.dts" "../target/linux/airoha/dt
 mkdir -p "../target/linux/airoha/dts"
 cp -f "target/linux/airoha/dts/an7581-xg-040g-md.dts" "../target/linux/airoha/dts/an7581-xg-040g-md.dts"
 mkdir -p "../target/linux/airoha/dts"
-cp -f "target/linux/airoha/dts/an7581-xg-040g-md.dts" "../target/linux/airoha/dts/an7581-n4000.dts"
+cp -f "target/linux/airoha/dts/an7581-n4000.dts" "../target/linux/airoha/dts/an7581-n4000.dts"
 mkdir -p "../target/linux/airoha/patches-6.12"
 cp -f "target/linux/airoha/patches-6.12/114-v7.0-hwrng-airoha-set-rng-quality-to-900.patch" "../target/linux/airoha/patches-6.12/114-v7.0-hwrng-airoha-set-rng-quality-to-900.patch"
 mkdir -p "../target/linux/airoha/patches-6.12"
