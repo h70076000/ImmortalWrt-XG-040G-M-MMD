@@ -33,7 +33,7 @@ on:
 
 env:
   CONFIG_FILE: "config/n4000.config"
-  REPO_URL: https://github.com/h70076000/immortalwrt
+  REPO_URL: https://github.com/h70076111/immortalwrt
   REPO_BRANCH: openwrt-25.12  # 默认分支，会被动态覆盖
   UPLOAD_FIRMWARE: true
   UPLOAD_RELEASE: true
