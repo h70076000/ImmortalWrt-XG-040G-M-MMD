@@ -35,6 +35,8 @@ cp -f "target/linux/airoha/dts/an7581-evb-emmc.dts" "../target/linux/airoha/dts/
 mkdir -p "../target/linux/airoha/dts"
 cp -f "target/linux/airoha/dts/an7581-nowifi.dtsi" "../target/linux/airoha/dts/an7581-nowifi.dtsi"
 mkdir -p "../target/linux/airoha/dts"
+cp -f "target/linux/airoha/dts/an7581-n4000.dts" "../target/linux/airoha/dts/an7581-n4000.dts"
+mkdir -p "../target/linux/airoha/dts"
 cp -f "target/linux/airoha/dts/an7581-xg-040g-md.dts" "../target/linux/airoha/dts/an7581-xg-040g-md.dts"
 mkdir -p "../target/linux/airoha/patches-6.12"
 cp -f "target/linux/airoha/patches-6.12/117-03-airoha_npu_eagle_add_ser.patch" "../target/linux/airoha/patches-6.12/117-03-airoha_npu_eagle_add_ser.patch"
