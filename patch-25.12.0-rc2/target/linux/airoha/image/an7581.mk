@@ -118,10 +118,29 @@ define Device/bell_xg-040g-md
   IMAGE_SIZE := 261120k
   KERNEL_IN_UBI := 1
   UBINIZE_OPTS := -s 2048
-  DEVICE_PACKAGES := airoha-en7581-mt7996-npu-firmware kmod-phy-airoha-en8811h kmod-i2c-an7581 kmod-leds-gpio kmod-gpio-button-hotplug uboot-envtools ubi-utils kmod-usb-storage-uas kmod-usb-net-cdc-ether kmod-fs-vfat kmod-fs-exfat kmod-fs-ext4 kmod-fs-ntfs3 blkid lsblk
+  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-usb3 kmod-usb-xhci-mtk kmod-i2c-an7581 kmod-input-gpio-keys-polled
   IMAGES += factory.bin sysupgrade.bin
   IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
 TARGET_DEVICES += bell_xg-040g-md
 
+define Device/hxzn_n4000
+  $(call Device/FitImageLzma)
+  DEVICE_VENDOR := Hxkj Hxzn
+  DEVICE_MODEL := Hxkj Hxzn N4000
+  SOC := an7581
+  DEVICE_DTS_CONFIG := config@1
+  KERNEL_LOADADDR := 0x80088000
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  KERNEL_SIZE := 8192k
+  IMAGE_SIZE := 261120k
+  KERNEL_IN_UBI := 1
+  UBINIZE_OPTS := -s 2048
+  DEVICE_PACKAGES := kmod-phy-airoha-en8811h kmod-usb3 kmod-usb-xhci-mtk kmod-i2c-an7581 kmod-input-gpio-keys-polled
+  IMAGES += factory.bin sysupgrade.bin
+  IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | append-ubi
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += hxzn_n4000
