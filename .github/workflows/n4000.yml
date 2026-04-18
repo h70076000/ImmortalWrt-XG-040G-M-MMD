@@ -243,9 +243,9 @@ jobs:
         run: |
           echo "release_tag=$(date +"%Y.%m.%d-%H%M%S")" >> $GITHUB_OUTPUT
           cat <<EOF > release.txt
-          🚀 N4000 固件自动构建
+          🚀 XG-040G-MD 固件自动构建
           ----------------------
-          设备型号: N4000
+          设备型号: XG-040G-MD
           构建时间: $(date +"%Y-%m-%d %H:%M")
           源码仓库: ${{ env.REPO_URL }}
           分支/Tag: ${{ env.REPO_BRANCH }}
